@@ -22,10 +22,11 @@ def p_to_md(p: float, alpha: float = .05, **kwargs) -> md:
     '''
     ret_str = ''
     p_flag = p < alpha
+    ret_str += f'## p = {p}\n'
     for k, v in kwargs.items():
         ret_str += f'## {k} = {v}\n\n'
-    ret_str += f'## Because $\\alpha$ {">" if p_flag else "<"} p,' + \
-        f'we {"failed to " if ~(p_flag) else ""} reject $H_0$'
+    ret_str += (f'## Because $\\alpha$ {">" if p_flag else "<"} p,'
+        f'we {"failed to " if ~(p_flag) else ""} reject $H_0$')
     return md(ret_str)
 
 

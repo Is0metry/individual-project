@@ -94,20 +94,20 @@ def prepare_coasters(coaster_df: pd.DataFrame) -> pd.DataFrame:
     counts = counts[counts < 8].index.format()
     coaster_df.manufacturer = coaster_df.manufacturer.apply(
         mark_other_manufacturers, others=counts)
-    coaster_df.manufacturer = coaster_df.manufacturer.astype('category')
     coaster_df.seating_type = coaster_df.seating_type.astype('category')
     arrow_hybrid = (coaster_df.material_type == 'Hybrid') &\
         (coaster_df.manufacturer == 'Arrow')
     rmc_hybrid = (coaster_df.material_type == 'Hybrid') &\
         (coaster_df.manufacturer == 'RMC')
-    gci_hybrid =(coaster_df.material_type == 'Hybrid') &\
+    gci_hybrid = (coaster_df.material_type == 'Hybrid') &\
         (coaster_df.manufacturer == 'GCI')
     gg_hybrid = (coaster_df.material_type == 'Hybrid') &\
         (coaster_df.manufacturer == 'Gravity Group')
     coaster_df.loc[(arrow_hybrid | rmc_hybrid), 'material_type'] = 'Wooden'
-    coaster_df.loc[(gci_hybrid | gg_hybrid),'material_type'] = 'Steel'
-    coaster_df = coaster_df.rename(columns={'material_type':'track_material'})
+    coaster_df.loc[(gci_hybrid | gg_hybrid), 'material_type'] = 'Steel'
+    coaster_df = coaster_df.rename(columns={'material_type': 'track_material'})
     coaster_df.track_material = coaster_df.track_material.astype('category')
+    coaster_df = coaster_df[coaster_df.length > 0]
     return coaster_df.reset_index(drop=True)
 
 
@@ -148,8 +148,12 @@ def scale(df: pd.DataFrame, scaler: ScalerType,
     return ret_scaled, scaler
 
 
-def cluster(df: pd.DataFrame, target: str,
-            kmeans: Union[KMeans, None]) -> Union[pd.Series, KMeans]:
+def cluster(df: pd.DataFrame,
+            kmeans: KMeans) -> Union[pd.Series, KMeans]:
     # TODO docstring
-    ret_ser = pd.Series(kmeans.transform(df))
-    return ret_df
+    clusters = np.array([])
+    try:
+        clusters = kmeans.predict(df)
+    except NotFittedError:
+        clusters = kmeans.fit_predict(df)
+    return pd.Series(clusters), kmeans
