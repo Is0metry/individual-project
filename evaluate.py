@@ -44,7 +44,9 @@ def plot_residuals(y_true: pd.Series, y_pred: pd.Series) -> None:
     plt.axhline(0, color=lmplot_kwargs['line']['color'])
     plt.show()
 
-
+def root_mean_squared_error(y_true:ModelDataType, y_pred:ModelDataType)->float:
+    return np.sqrt(mean_squared_error(y_true,y_pred))
+    
 def sum_of_squared_errors(y_true: ModelDataType,
                           y_pred: Union[ModelDataType, float]) -> float:
     '''
