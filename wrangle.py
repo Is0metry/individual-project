@@ -108,7 +108,8 @@ def prepare_coasters(coaster_df: pd.DataFrame) -> pd.DataFrame:
     coaster_df = coaster_df.rename(columns={'material_type': 'track_material'})
     coaster_df.track_material = coaster_df.track_material.astype('category')
     coaster_df = coaster_df[coaster_df.length > 0]
-    return coaster_df.reset_index(drop=True)
+    coaster_df.reset_index(drop=True)
+    return coaster_df
 
 
 def wrangle_coasters() -> pd.DataFrame:
@@ -128,32 +129,29 @@ def tvt_split(df: pd.DataFrame,
     split by tv_split initially and validate_split thereafter. '''
     strat = df[stratify]
     train_validate, test = train_test_split(
-        df, test_size=tv_split, random_state=123, stratify=strat)
+        df, test_size=tv_split, random_state=69, stratify=strat)
     strat = train_validate[stratify]
     train, validate = train_test_split(
         train_validate, test_size=validate_split,
-        random_state=123, stratify=strat)
+        random_state=69, stratify=strat)
     return train, validate, test
 
 
-def scale(df: pd.DataFrame, scaler: ScalerType,
-          features: List[str]) -> Union[pd.DataFrame, ScalerType]:
-    # TODO docstring
-    ret_scaled = df[features].copy()
-    try:
-        ret_scaled[features] = scaler.transform(ret_scaled)
-    except NotFittedError:
-        scaler = scaler.fit(ret_scaled)
-        ret_scaled[features] = (scaler.transform(ret_scaled))
-    return ret_scaled, scaler
+def man_groups(train: pd.DataFrame, validate: pd.DataFrame,
+               test: pd.DataFrame) -> Tuple[pd.DataFrame,
+                                            pd.DataFrame, pd.DataFrame]:
+    grouping = train.groupby('manufacturer').mean().sort_values(
+        by='length', ascending=False).index.to_list()
+    train['man_group'] = -1
+    validate['man_group'] = -1
+    test['man_group'] = -1
+    for i in range(5):
+        train.loc[train.manufacturer.isin(
+                grouping[i*5:(i+1)*5]), 'man_group'] = i
+        validate.loc[validate.manufacturer.isin(
+                grouping[i*5:(i+1)*5]), 'man_group'] = i
+        test.loc[test.manufacturer.isin(
+                grouping[i*5:(i+1)*5]), 'man_group'] = i
+    return train, validate, test
 
 
-def cluster(df: pd.DataFrame,
-            kmeans: KMeans) -> Union[pd.Series, KMeans]:
-    # TODO docstring
-    clusters = np.array([])
-    try:
-        clusters = kmeans.predict(df)
-    except NotFittedError:
-        clusters = kmeans.fit_predict(df)
-    return pd.Series(clusters), kmeans
