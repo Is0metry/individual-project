@@ -7,7 +7,7 @@ import seaborn as sns
 from IPython.display import Markdown as md
 from scipy import stats
 from sklearn.cluster import KMeans
-from wrangle import cluster
+from model import cluster
 
 def p_to_md(p: float, alpha: float = .05, **kwargs) -> md:
     '''
