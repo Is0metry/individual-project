@@ -78,7 +78,7 @@ def acquire_coasters() -> pd.DataFrame:
     ## Returns
     `DataFrame` containing coaster information
     '''
-    coaster_df = pd.read_csv('data/prepped/roller_coasters.csv')
+    coaster_df = pd.read_csv('roller_coasters.csv')
     return coaster_df
 
 
