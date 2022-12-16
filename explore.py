@@ -9,6 +9,7 @@ from scipy import stats
 from sklearn.cluster import KMeans
 from model import cluster
 
+
 def p_to_md(p: float, alpha: float = .05, **kwargs) -> md:
     '''
     returns the result of a p test as a `Markdown` object
@@ -26,7 +27,7 @@ def p_to_md(p: float, alpha: float = .05, **kwargs) -> md:
     for k, v in kwargs.items():
         ret_str += f'## {k} = {v}\n\n'
     ret_str += (f'## Because $\\alpha$ {">" if p_flag else "<"} p,'
-        f'we {"failed to " if ~(p_flag) else ""} reject $H_0$')
+                f'we {"failed to " if ~(p_flag) else ""} reject $H_0$')
     return md(ret_str)
 
 
@@ -78,6 +79,9 @@ def t_to_md(p: float, t: float, alpha: float = .05, **kwargs):
     return md(ret_str)
 
 
+palette = 'mako'
+
+
 def generate_elbow(df: pd.DataFrame, k_min: int = 1, k_max: int = 30) -> None:
     '''
     Plots KMeans elbow of a given potential cluster as well as the
@@ -105,3 +109,52 @@ def generate_elbow(df: pd.DataFrame, k_min: int = 1, k_max: int = 30) -> None:
         axs[1].set_title('% Change')
         fig.tight_layout()
         plt.show()
+
+
+def manufacturers_v_length(train: pd.DataFrame) -> None:
+    #TODO Docstring
+    sns.barplot(data=train, x='manufacturer', y='length',hue='steel_track', palette=palette)
+    plt.xticks(rotation=90)
+    plt.show()
+
+
+def wood_vs_steel(train: pd.DataFrame) -> None:
+    # TODO Docstring
+    sns.boxplot(data=train, x='steel_track', y='length', palette=palette)
+    plt.xticks(rotation=35)
+    plt.title('Wood vs. Steel Track Length')
+    plt.xlabel('Track Material')
+    plt.ylabel('Coaster Length')
+    plt.show()
+
+
+def wood_steel_levene(train: pd.DataFrame) -> md:
+    #TODO Docstring
+    steel = train[train.steel_track].length
+    wood = train[~train.steel_track].length
+    t, p = stats.levene(steel, wood)
+    return t_to_md(p, t)
+
+
+def wood_steel_ttest(train: pd.DataFrame) -> md:
+    #TODO Docstring
+    steel = train[train.steel_track].length
+    wood = train[~train.steel_track].length
+    t, p = stats.ttest_ind(wood, steel, equal_var=False)
+    return t_to_md(p, t)
+
+
+def speed_length(train: pd.DataFrame) -> None:
+    # TODO Docstring
+    sns.scatterplot(data=train, x='speed', y='length',palette='mako')
+    plt.title('Speed vs. Length')
+    plt.xlabel('Speed')
+    plt.ylabel('Length')
+    plt.show()
+    
+def speed_len_boxplot(train:pd.DataFrame)->None:
+    sns.boxplot(data=train[['speed','length']],palette='mako')
+
+def speed_len_spearmanr(train:pd.DataFrame)->md:
+    r,p = stats.spearmanr(train.speed,train.length)
+    return p_to_md(p,r=r)
