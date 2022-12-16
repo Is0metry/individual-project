@@ -6,33 +6,11 @@ from sklearn.preprocessing import MinMaxScaler, RobustScaler
 from sklearn.exceptions import NotFittedError
 from custom_dtypes import ScalerType
 from sklearn.cluster import KMeans
+from pynput.mouse import Controller
 
 
-def acquire_coasters() -> pd.DataFrame:
-    '''
-    Acquires the coaster data from CSV
-    ## Parameters
-    None
-    ## Returns
-    `DataFrame` containing coaster information
-    '''
-    coaster_df = pd.read_csv('data/prepped/roller_coasters.csv')
-    return coaster_df
-
-
-def mark_other_manufacturers(manufacturer, others=[]):
-    # TODO docstring
-    if manufacturer in others:
-        return "Other"
-    elif manufacturer == 'Philadelphia Toboggan Coaster':
-        return 'PTC'
-    return manufacturer
-
-
-def prepare_coasters(coaster_df: pd.DataFrame) -> pd.DataFrame:
+def correct_values(coaster_df: pd.DataFrame) -> pd.DataFrame:
     # TODO Docstring
-    # Update some...oversights
-    # info pulled from RCDB
     coaster_df.iloc[2591, :] = pd.Series({'name': 'Orion',
                                          'material_type': 'Steel',
                                           'seating_type': 'Sit Down',
@@ -86,6 +64,39 @@ def prepare_coasters(coaster_df: pd.DataFrame) -> pd.DataFrame:
     coaster_df.loc[coaster_df.name ==
                    'Escape from Madagascar', 'material_type'] = 'Steel'
     coaster_df.iloc[[683, 730], 4] = 9.2
+    coaster_df.loc[coaster_df.name == 'Yolo Works', [
+        'speed', 'length']] = pd.Series({'speed': 28.8, 'length': 55.78})
+    coaster_df.loc[coaster_df.manufacturer == 'RMC','material_type'] = 'Steel'
+    coaster_df.loc[(coaster_df.name == 'Wildfire') & (coaster_df.manufacturer == 'RMC'),'material_type'] = 'Wooden'
+    return coaster_df
+
+
+def acquire_coasters() -> pd.DataFrame:
+    '''
+    Acquires the coaster data from CSV
+    ## Parameters
+    None
+    ## Returns
+    `DataFrame` containing coaster information
+    '''
+    coaster_df = pd.read_csv('data/prepped/roller_coasters.csv')
+    return coaster_df
+
+
+def mark_other_manufacturers(manufacturer, others=[]):
+    # TODO docstring
+    if manufacturer in others:
+        return "Other"
+    elif manufacturer == 'Philadelphia Toboggan Coaster':
+        return 'PTC'
+    return manufacturer
+
+
+def prepare_coasters(coaster_df: pd.DataFrame) -> pd.DataFrame:
+    # TODO Docstring
+    # Update some...oversights
+    # info pulled from RCDB
+    coaster_df = correct_values(coaster_df)
     coaster_df = coaster_df[coaster_df.status != 'rumored']
     coaster_df = coaster_df[coaster_df.material_type != 'na']
     coaster_df = coaster_df[coaster_df.manufacturer != 'na']
@@ -105,17 +116,22 @@ def prepare_coasters(coaster_df: pd.DataFrame) -> pd.DataFrame:
         (coaster_df.manufacturer == 'Gravity Group')
     coaster_df.loc[(arrow_hybrid | rmc_hybrid), 'material_type'] = 'Wooden'
     coaster_df.loc[(gci_hybrid | gg_hybrid), 'material_type'] = 'Steel'
-    coaster_df = coaster_df.rename(columns={'material_type': 'track_material'})
-    coaster_df.track_material = coaster_df.track_material.astype('category')
+    coaster_df.material_type = coaster_df.material_type.apply(
+        lambda x: True if x == 'Steel' else False)
+    coaster_df = coaster_df.rename(columns={'material_type': 'steel_track'})
+    coaster_df.steel_track = coaster_df.steel_track.astype('bool')
     coaster_df = coaster_df[coaster_df.length > 0]
     coaster_df.reset_index(drop=True)
     return coaster_df
 
 
-def wrangle_coasters() -> pd.DataFrame:
+def wrangle_coasters() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     coaster_df = acquire_coasters()
     coaster_df = prepare_coasters(coaster_df)
-    return coaster_df
+    train, validate, test = tvt_split(coaster_df, 'steel_track')
+    train, validate, test = man_groups(train, validate, test)
+
+    return train, validate, test
 
 
 def tvt_split(df: pd.DataFrame,
@@ -129,17 +145,18 @@ def tvt_split(df: pd.DataFrame,
     split by tv_split initially and validate_split thereafter. '''
     strat = df[stratify]
     train_validate, test = train_test_split(
-        df, test_size=tv_split, random_state=69, stratify=strat)
+        df, test_size=tv_split, random_state=911, stratify=strat)
     strat = train_validate[stratify]
     train, validate = train_test_split(
         train_validate, test_size=validate_split,
-        random_state=69, stratify=strat)
+        random_state=911, stratify=strat)
     return train, validate, test
 
 
 def man_groups(train: pd.DataFrame, validate: pd.DataFrame,
                test: pd.DataFrame) -> Tuple[pd.DataFrame,
                                             pd.DataFrame, pd.DataFrame]:
+    # TODO Docstring
     grouping = train.groupby('manufacturer').mean().sort_values(
         by='length', ascending=False).index.to_list()
     train['man_group'] = -1
@@ -147,11 +164,16 @@ def man_groups(train: pd.DataFrame, validate: pd.DataFrame,
     test['man_group'] = -1
     for i in range(5):
         train.loc[train.manufacturer.isin(
-                grouping[i*5:(i+1)*5]), 'man_group'] = i
+            grouping[i*5:(i+1)*5]), 'man_group'] = i
         validate.loc[validate.manufacturer.isin(
-                grouping[i*5:(i+1)*5]), 'man_group'] = i
+            grouping[i*5:(i+1)*5]), 'man_group'] = i
         test.loc[test.manufacturer.isin(
-                grouping[i*5:(i+1)*5]), 'man_group'] = i
+            grouping[i*5:(i+1)*5]), 'man_group'] = i
     return train, validate, test
 
 
+def show_corrections(coaster_df: pd.DataFrame) -> pd.DataFrame:
+    # TODO docstring
+    changes = ['Orion', 'Ice Breaker', 'Velocicoaster',
+               'Texas Stingray', 'Namazu', 'Escape from Madagascar', 'Yolo Works']
+    coaster_df[coaster_df.name.isin(changes)]
