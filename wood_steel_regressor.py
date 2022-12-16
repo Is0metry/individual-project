@@ -10,6 +10,7 @@ from numpy.typing import NDArray, ArrayLike
 T = TypeVar('T')
 
 class WoodSteelRegression:
+    ''' a regressor that runs a separate regression model on both wood and steel '''
     RegressionType = Union[LinearRegression, TweedieRegressor, LassoLars]
     steel_regressor: RegressionType
     wood_regressor: RegressionType
