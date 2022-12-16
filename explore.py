@@ -79,9 +79,6 @@ def t_to_md(p: float, t: float, alpha: float = .05, **kwargs):
     return md(ret_str)
 
 
-palette = 'mako'
-
-
 def generate_elbow(df: pd.DataFrame, k_min: int = 1, k_max: int = 30) -> None:
     '''
     Plots KMeans elbow of a given potential cluster as well as the
@@ -111,16 +108,45 @@ def generate_elbow(df: pd.DataFrame, k_min: int = 1, k_max: int = 30) -> None:
         plt.show()
 
 
+def executive_summary(train: pd.DataFrame) -> None:
+    # TODO Docstring
+    fig,axs = plt.subplots(1,2,figsize=(12,4))
+    sns.barplot(data=train, x='manufacturer', y='length',
+                palette='mako', errorbar=None,ax=axs[0])
+    
+    axs[0].set_xticklabels(axs[0].get_xticklabels(),rotation=35, horizontalalignment='right', fontsize='xx-small')
+    axs[0].set_xlabel('Manufacturer')
+    axs[0].set_ylabel('Average Length')
+    axs[0].set_title('Coaster Length by Manufacturer')
+    sns.scatterplot(data=train, x='speed', y='length', palette='mako',ax=axs[1])
+    axs[1].set_title('Speed vs. Length')
+    axs[1].set_xlabel('Speed')
+    axs[1].set_ylabel('Length')
+    plt.show()
+
+
 def manufacturers_v_length(train: pd.DataFrame) -> None:
-    #TODO Docstring
-    sns.barplot(data=train, x='manufacturer', y='length',hue='steel_track', palette=palette)
-    plt.xticks(rotation=90)
+    # TODO Docstring
+    sns.barplot(data=train, x='manufacturer', y='length',
+                palette='mako', errorbar=None)
+    plt.xticks(rotation=35, horizontalalignment='right', fontsize='x-small')
+    plt.xlabel('Manufacturer')
+    plt.ylabel('Average Length')
+    plt.title('Coaster Length by Manufacturer')
+    plt.show()
+
+
+def man_speed_kde(train: pd.DataFrame) -> None:
+    train['man_speed_cluster'] = cluster(
+        train[['speed', 'num_inversions']], KMeans(7))
+    sns.kdeplot(data=train, x='length',
+                hue='man_speed_cluster', palette='mako')
     plt.show()
 
 
 def wood_vs_steel(train: pd.DataFrame) -> None:
     # TODO Docstring
-    sns.boxplot(data=train, x='steel_track', y='length', palette=palette)
+    sns.boxplot(data=train, x='steel_track', y='length', palette='mako')
     plt.xticks(rotation=35)
     plt.title('Wood vs. Steel Track Length')
     plt.xlabel('Track Material')
@@ -129,7 +155,7 @@ def wood_vs_steel(train: pd.DataFrame) -> None:
 
 
 def wood_steel_levene(train: pd.DataFrame) -> md:
-    #TODO Docstring
+    # TODO Docstring
     steel = train[train.steel_track].length
     wood = train[~train.steel_track].length
     t, p = stats.levene(steel, wood)
@@ -137,7 +163,7 @@ def wood_steel_levene(train: pd.DataFrame) -> md:
 
 
 def wood_steel_ttest(train: pd.DataFrame) -> md:
-    #TODO Docstring
+    # TODO Docstring
     steel = train[train.steel_track].length
     wood = train[~train.steel_track].length
     t, p = stats.ttest_ind(wood, steel, equal_var=False)
@@ -146,15 +172,17 @@ def wood_steel_ttest(train: pd.DataFrame) -> md:
 
 def speed_length(train: pd.DataFrame) -> None:
     # TODO Docstring
-    sns.scatterplot(data=train, x='speed', y='length',palette='mako')
+    sns.scatterplot(data=train, x='speed', y='length', palette='mako')
     plt.title('Speed vs. Length')
     plt.xlabel('Speed')
     plt.ylabel('Length')
     plt.show()
-    
-def speed_len_boxplot(train:pd.DataFrame)->None:
-    sns.boxplot(data=train[['speed','length']],palette='mako')
 
-def speed_len_spearmanr(train:pd.DataFrame)->md:
-    r,p = stats.spearmanr(train.speed,train.length)
-    return p_to_md(p,r=r)
+
+def speed_len_boxplot(train: pd.DataFrame) -> None:
+    sns.boxplot(data=train[['speed', 'length']], palette='mako')
+
+
+def speed_len_spearmanr(train: pd.DataFrame) -> md:
+    r, p = stats.spearmanr(train.speed, train.length)
+    return p_to_md(p, r=r)

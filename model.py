@@ -1,21 +1,21 @@
 '''model contains helper functions to
 assist in Modeling portion of final_report.ipynb'''
+from copy import deepcopy
+from itertools import product
 from typing import Callable, Dict, List, Tuple, Union
 
 import numpy as np
 import pandas as pd
 from IPython.display import Markdown as md
 from sklearn.cluster import KMeans
+from sklearn.exceptions import NotFittedError
 from sklearn.linear_model import LassoLars, LinearRegression, TweedieRegressor
 from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import RobustScaler, PolynomialFeatures
-from sklearn.exceptions import NotFittedError
+from sklearn.preprocessing import PolynomialFeatures, RobustScaler
+
 import evaluate as ev
-from itertools import product
-from wood_steel_regressor import WoodSteelRegression
 from custom_dtypes import LinearRegressionType, ModelDataType, ScalerType
-from copy import deepcopy
-from sklearn.metrics import mean_squared_error
+from wood_steel_regressor import WoodSteelRegression
 
 
 def select_baseline(ytrain: pd.Series) -> Tuple[md, pd.DataFrame]:
@@ -30,8 +30,8 @@ def select_baseline(ytrain: pd.Series) -> Tuple[md, pd.DataFrame]:
     mean_eval = ev.regression_errors(ytrain, mean_base, 'Mean Baseline')
     med_eval = ev.regression_errors(ytrain, med_base, 'Median Baseline')
     ret_md = pd.concat([mean_eval, med_eval]).to_markdown()
-    ret_md += '\n### Because mean outperformed median on all metrics, \
-        we will use mean as our baseline'
+    ret_md += ('\n### Because mean outperformed median on all metrics,'
+               'we will use mean as our baseline')
     return md(ret_md), mean_eval
 
 
@@ -118,7 +118,8 @@ def try_models_train_validate(train: pd.DataFrame,
                               validate: pd.DataFrame) -> pd.DataFrame:
     # TODO Docstring
     def tv_run(r, n, p=None): return train_and_validate(
-        train, validate, ['speed', 'man_group', 'height', 'num_inversions'], 'length', r, n, p)
+        train, validate, ['speed', 'man_group', 'height', 'num_inversions'],
+        'length', r, n, p)
 
     linreg = tv_run(LinearRegression(), 'Linear Regression')
     linreg_square = tv_run(
@@ -136,18 +137,24 @@ def try_models_train_validate(train: pd.DataFrame,
     glm_cube = tv_run(TweedieRegressor(power=1, alpha=1),
                       'GLM^3', PolynomialFeatures(3))
     baseline = train.length.mean()
-    baseline = pd.DataFrame({'Train': get_baseline(train.length, baseline), 'Validate': get_baseline(
+    baseline = pd.DataFrame({'Train': get_baseline(train.length,
+                                                   baseline),
+                             'Validate': get_baseline(
         validate.length, baseline)}, index=['Baseline'])
     return pd.concat([linreg, linreg_square, linreg_cube, llars, llars_square,
                       llars_cube, glm, glm_square, glm_cube, baseline])
 
 
-def wood_steel_permutations(train: pd.DataFrame, validate: pd.DataFrame) -> pd.DataFrame:
+def wood_steel_permutations(
+        train: pd.DataFrame,
+        validate: pd.DataFrame) -> pd.DataFrame:
     # TODO Docstring
     def tv_run(r, n, p=None): return train_and_validate(
-        train, validate, ['speed', 'man_group', 'height', 'num_inversions'], 'length', r, n, p)
-    regressors = [(LinearRegression(), 'lr'), (LassoLars(
-        alpha=4), 'll'), (TweedieRegressor(power=0, alpha=4), 'tw')]
+        train, validate, ['speed', 'man_group',
+                          'height', 'num_inversions'],
+        'length', r, n, p)
+    regressors = [(LinearRegression(), 'LinearRegression'), (LassoLars(
+        alpha=4), 'LassoLars'), (TweedieRegressor(power=0, alpha=4), 'GLM')]
     mse = []
     for reg in product(regressors, repeat=2):
         reg1 = reg[0]
@@ -155,11 +162,13 @@ def wood_steel_permutations(train: pd.DataFrame, validate: pd.DataFrame) -> pd.D
         linear = WoodSteelRegression(deepcopy(reg1[0]), deepcopy(reg2[0]))
         squared = WoodSteelRegression(deepcopy(reg1[0]), deepcopy(reg2[0]))
         cubed = WoodSteelRegression(deepcopy(reg1[0]), deepcopy(reg2[0]))
-        mse.append(tv_run(linear, reg1[1] + '_' + reg2[1] + '_1'))
+        mse.append(tv_run(linear, reg1[1] + '+' + reg2[1]))
         mse.append(
-            tv_run(squared, reg1[1] + '_' + reg2[1] + '_2', PolynomialFeatures(2)))
-        mse.append(tv_run(cubed, reg1[1] + '_' +
-                   reg2[1] + '_3', PolynomialFeatures(3)))
+            tv_run(squared,
+                   reg1[1] + '+' + reg2[1] + '^2',
+                   PolynomialFeatures(2)))
+        mse.append(tv_run(cubed, reg1[1] + '+' +
+                   reg2[1] + '^3', PolynomialFeatures(3)))
     ret_frame = pd.concat(mse).sort_values(
         by=['Validate', 'Train']).iloc[:10, :]
     return ret_frame
@@ -173,17 +182,16 @@ def run_test(train: pd.DataFrame, test: pd.DataFrame) -> pd.DataFrame:
     trainx = train[features]
     trainy = train.length
     scaler = RobustScaler()
-    trainx = scaler.fit_transform(trainx,trainy)
-    stest = scale(testx,scaler)
+    trainx = scaler.fit_transform(trainx, trainy)
+    stest = scale(testx, scaler)
     poly = PolynomialFeatures(2)
     trainx = poly.fit_transform(trainx)
     stest = poly.transform(stest)
     linreg = LinearRegression()
-    linreg.fit(trainx,trainy)
-    ypred = run_regression(stest,linreg)
-    test_rmse = ev.root_mean_squared_error(test.length,ypred)
-    baseline = get_baseline(test.length,train.length.mean())
-    ret = pd.DataFrame({'LinearRegression':test_rmse,'Baseline':baseline},index=['Test']).T
+    linreg.fit(trainx, trainy)
+    ypred = run_regression(stest, linreg)
+    test_rmse = ev.root_mean_squared_error(test.length, ypred)
+    baseline = get_baseline(test.length, train.length.mean())
+    ret = pd.DataFrame({'LinearRegression': test_rmse,
+                       'Baseline': baseline}, index=['Test']).T
     return ret
-    
-    
