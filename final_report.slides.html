@@ -17915,7 +17915,8 @@ div.jp-OutputPrompt {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Roller-Coaster-of-Data:">Roller Coaster of Data:<a class="anchor-link" href="#Roller-Coaster-of-Data:">&#182;</a></h1><h2 id="Analyzing-roller-coaster-length-on-coasters-around-the-world">Analyzing roller coaster length on coasters around the world<a class="anchor-link" href="#Analyzing-roller-coaster-length-on-coasters-around-the-world">&#182;</a></h2>
+<h1 id="Roller-Coaster-of-Data:">Roller Coaster of Data:<a class="anchor-link" href="#Roller-Coaster-of-Data:">&#182;</a></h1><h2 id="Analyzing-roller-coaster-length-on-coasters-around-the-world">Analyzing roller coaster length on coasters around the world<a class="anchor-link" href="#Analyzing-roller-coaster-length-on-coasters-around-the-world">&#182;</a></h2><img src="https://media.giphy.com/media/MBy2eijcjNNr9jWHxF/giphy-downsized-large.gif">
+
 </div>
 </div>
 </div>
@@ -17995,8 +17996,7 @@ div.jp-OutputPrompt {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reload</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="n">e</span><span class="o">.</span><span class="n">executive_summary</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">e</span><span class="o">.</span><span class="n">executive_summary</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18104,6 +18104,17 @@ class="
 </div>
 </div>
 </div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Acquire-and-Prepare">Acquire and Prepare<a class="anchor-link" href="#Acquire-and-Prepare">&#182;</a></h1>
+</div>
+</div>
+</div>
 </div></section><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -18144,52 +18155,10 @@ class="
 <li>Based on training data <code>length</code>, grouped manufacturers into <code>man_groups</code></li>
 </ul>
 </li>
+<li>Data was then split into train, validate, and test datasets (roughly 55/25/15)</li>
 <li>After cleaning, data has 1187 rows and 11 columns</li>
 </ul>
 
-</div>
-</div>
-</div>
-</div></section><section >
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Exploration">Exploration<a class="anchor-link" href="#Exploration">&#182;</a></h3><ul>
-<li>Use visualizations to see patterns in the data and try to determine drivers/indicators of coaster length</li>
-<li>Use statistical testing, as necessary, to confirm or reject the relationship between features</li>
-<li>Use clustering to explore adding related features together to attempt to further update data</li>
-</ul>
-
-</div>
-</div>
-</div>
-</div></section><section >
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Model-and-Evaluation">Model and Evaluation<a class="anchor-link" href="#Model-and-Evaluation">&#182;</a></h2><ul>
-<li>Used <code>TweedieRegressor</code>,<code>LassoLars</code>, and <code>LinearRegression</code> models in sklearn.</li>
-<li>Evaluated model performance against training and validation data</li>
-<li>Best performing model was evaluated on test data set</li>
-</ul>
-
-</div>
-</div>
-</div>
-</div></section></section><section ><section >
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Acquire-and-Prepare">Acquire and Prepare<a class="anchor-link" href="#Acquire-and-Prepare">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -18423,7 +18392,7 @@ class="
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Is-there-a-positive-relationship-between-material-type-and-length?">Is there a positive relationship between material type and length?<a class="anchor-link" href="#Is-there-a-positive-relationship-between-material-type-and-length?">&#182;</a></h3><h4 id="$H_0$:-$%5Cmu_%7Bsteel%7D-=-%5Cmu_%7Bwood%7D$">$H_0$: $\mu_{steel} = \mu_{wood}$<a class="anchor-link" href="#$H_0$:-$%5Cmu_%7Bsteel%7D-=-%5Cmu_%7Bwood%7D$">&#182;</a></h4><h4 id="$H_a$:-$%5Cmu_%7Bsteel%7D-%3C-%5Cmu_%7Bwood%7D$">$H_a$: $\mu_{steel} &lt; \mu_{wood}$<a class="anchor-link" href="#$H_a$:-$%5Cmu_%7Bsteel%7D-%3C-%5Cmu_%7Bwood%7D$">&#182;</a></h4><h3 id="Assumptions:">Assumptions:<a class="anchor-link" href="#Assumptions:">&#182;</a></h3><ol>
+<h3 id="Is-there-a-positive-relationship-between-material-type-and-length?">Is there a positive relationship between material type and length?<a class="anchor-link" href="#Is-there-a-positive-relationship-between-material-type-and-length?">&#182;</a></h3><h4 id="$H_0$:-$%5Cmu_%7Bsteel%7D-=-%5Cmu_%7Bwood%7D$">$H_0$: $\mu_{steel} = \mu_{wood}$<a class="anchor-link" href="#$H_0$:-$%5Cmu_%7Bsteel%7D-=-%5Cmu_%7Bwood%7D$">&#182;</a></h4><h4 id="$H_a$:-$%5Cmu_%7Bsteel%7D-%5Cneq-%5Cmu_%7Bwood%7D$">$H_a$: $\mu_{steel} \neq \mu_{wood}$<a class="anchor-link" href="#$H_a$:-$%5Cmu_%7Bsteel%7D-%5Cneq-%5Cmu_%7Bwood%7D$">&#182;</a></h4><h3 id="Assumptions:">Assumptions:<a class="anchor-link" href="#Assumptions:">&#182;</a></h3><ol>
 <li>sets are independent ✅</li>
 <li>sets are normally distributed ✅</li>
 <li>Equal Variance❓</li>
@@ -18471,7 +18440,7 @@ class="
 
 </div>
 
-</div></div><div class="fragment" >
+</div></div></section><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -18482,7 +18451,7 @@ class="
 </div>
 </div>
 </div>
-</div></div></section><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18521,7 +18490,7 @@ class="
 
 </div>
 
-</div><div class="fragment" >
+</div></div><div class="fragment" >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -18551,8 +18520,7 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reload</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="n">e</span><span class="o">.</span><span class="n">manufacturers_v_length</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">e</span><span class="o">.</span><span class="n">manufacturers_v_length</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18588,7 +18556,7 @@ class="
 
 </div>
 
-</div><div class="fragment" >
+</div></section><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -18599,7 +18567,7 @@ class="
 </div>
 </div>
 </div>
-</div></div></section></section><section ><section >
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -18618,8 +18586,7 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reload</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="n">e</span><span class="o">.</span><span class="n">speed_length</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">e</span><span class="o">.</span><span class="n">speed_length</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18668,7 +18635,7 @@ class="
 </div>
 </div>
 </div>
-</div></section><section >
+</div><div class="fragment" >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -18683,7 +18650,7 @@ class="
 </div>
 </div>
 </div>
-</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18691,8 +18658,7 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reload</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="n">e</span><span class="o">.</span><span class="n">speed_len_boxplot</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">e</span><span class="o">.</span><span class="n">speed_len_boxplot</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18728,7 +18694,7 @@ class="
 
 </div>
 
-</div></div><div class="fragment" >
+</div></div></section><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -18739,7 +18705,7 @@ class="
 </div>
 </div>
 </div>
-</div></div></section><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18747,8 +18713,7 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reload</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="n">e</span><span class="o">.</span><span class="n">speed_len_spearmanr</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">e</span><span class="o">.</span><span class="n">speed_len_spearmanr</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18853,7 +18818,7 @@ class="
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Based-on-the-elbow-graph-and-the-percent-change,-we-will-cluster-with-k=7">Based on the elbow graph and the percent change, we will cluster with k=7<a class="anchor-link" href="#Based-on-the-elbow-graph-and-the-percent-change,-we-will-cluster-with-k=7">&#182;</a></h4>
+<h4 id="Based-on-the-elbow-graph-and-the-percent-change,-we-will-cluster-with-k=6">Based on the elbow graph and the percent change, we will cluster with k=6<a class="anchor-link" href="#Based-on-the-elbow-graph-and-the-percent-change,-we-will-cluster-with-k=6">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -18865,8 +18830,7 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reload</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="n">e</span><span class="o">.</span><span class="n">man_speed_kde</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">e</span><span class="o">.</span><span class="n">man_speed_kde</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -19045,8 +19009,7 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reload</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">try_models_train_validate</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">validate</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">try_models_train_validate</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">validate</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -19170,8 +19133,7 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reload</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">wood_steel_permutations</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="n">validate</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">wood_steel_permutations</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="n">validate</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -19295,8 +19257,7 @@ class="
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reload</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">run_test</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="n">test</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">run_test</span><span class="p">(</span><span class="n">train</span><span class="p">,</span><span class="n">test</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -19394,7 +19355,30 @@ class="
 </div>
 </div>
 </div>
-</div></section></section>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="THANK-YOU">THANK YOU<a class="anchor-link" href="#THANK-YOU">&#182;</a></h1>
+</div>
+</div>
+</div>
+</div><div class="fragment" >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>When I signed up for this, I never expected to get to meet so many cool, wonderful, and kind people. The past 4.5 months has been such a joy, and I hope y'all like me too cuz you're stuck with me 🥳 Mirzakhani Forever!</p>
+
+</div>
+</div>
+</div>
+</div></div></section></section>
 </div>
 </div>
 </body>

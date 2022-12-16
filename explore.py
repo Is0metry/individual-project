@@ -161,7 +161,7 @@ def man_speed_kde(train: pd.DataFrame) -> None:
     None: plots to the notebook
     '''
     train['man_speed_cluster'] = cluster(
-        train[['speed', 'num_inversions']], KMeans(7))
+        train[['speed', 'num_inversions']], KMeans(6))
     sns.kdeplot(data=train, x='length',
                 hue='man_speed_cluster', palette='mako')
     plt.show()
