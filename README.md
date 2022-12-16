@@ -24,8 +24,8 @@
 Variable Name | Data Type | Definition
 --- | --- | ---
 **name** | *string* |The name of the roller coaster
-**steel_track** | boolean | Whether or not the track of the roller coaster is primarily steel
-**seating_type** | category | The style of roller coaster (e.g. Sit Down, Stand Up, Inverted)
+**steel_track** | *boolean* | Whether or not the track of the roller coaster is primarily steel
+**seating_type** | *category* | The style of roller coaster (e.g. Sit Down, Stand Up, Inverted)
 **speed** | *float* | the maximum speed of the roller coaster in km/h.
 **height** | *float* | the maximum height of the roller coaster in meters.
 **length** | *float* | the length of the roller coaster in meters (NOT in feet as Kaggle states)
