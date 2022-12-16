@@ -6,7 +6,6 @@ from sklearn.preprocessing import MinMaxScaler, RobustScaler
 from sklearn.exceptions import NotFittedError
 from custom_dtypes import ScalerType
 from sklearn.cluster import KMeans
-from pynput.mouse import Controller
 
 
 def correct_values(coaster_df: pd.DataFrame) -> pd.DataFrame:
