@@ -120,15 +120,3 @@ def regression_errors(y_true: ModelDataType,
     ret_dict['RMSE'] = np.sqrt(ret_dict['MSE'])
     ret_frame = pd.DataFrame(ret_dict, index=[title])
     return ret_frame
-
-
-def get_errors(predictions: List[pd.DataFrame], labels: List[str]):
-    # TODO Woody docstring
-    if len(labels) != len(predictions):
-        raise Exception("predictions and labels must be the same length")
-    errors = []
-    for prediction in zip(predictions, labels):
-        error = regression_errors(
-            prediction[0].y_true, prediction[0].y_pred, prediction[1])
-        errors.append(error)
-    return pd.concat(errors)

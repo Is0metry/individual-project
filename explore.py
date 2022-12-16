@@ -109,16 +109,24 @@ def generate_elbow(df: pd.DataFrame, k_min: int = 1, k_max: int = 30) -> None:
 
 
 def executive_summary(train: pd.DataFrame) -> None:
-    # TODO Docstring
-    fig,axs = plt.subplots(1,2,figsize=(12,4))
+    '''
+    Produces a pair of graphs for the executive summary
+    ## Parameters
+    train: `DataFrame` with training data
+    ## Returns
+    None, plots the plots for the executive summary to notebook
+    '''
+    fig, axs = plt.subplots(1, 2, figsize=(12, 4))
     sns.barplot(data=train, x='manufacturer', y='length',
-                palette='mako', errorbar=None,ax=axs[0])
-    
-    axs[0].set_xticklabels(axs[0].get_xticklabels(),rotation=35, horizontalalignment='right', fontsize='xx-small')
+                palette='mako', errorbar=None, ax=axs[0])
+
+    axs[0].set_xticklabels(axs[0].get_xticklabels(
+    ), rotation=35, horizontalalignment='right', fontsize='xx-small')
     axs[0].set_xlabel('Manufacturer')
     axs[0].set_ylabel('Average Length')
     axs[0].set_title('Coaster Length by Manufacturer')
-    sns.scatterplot(data=train, x='speed', y='length', palette='mako',ax=axs[1])
+    sns.scatterplot(data=train, x='speed', y='length',
+                    palette='mako', ax=axs[1])
     axs[1].set_title('Speed vs. Length')
     axs[1].set_xlabel('Speed')
     axs[1].set_ylabel('Length')
@@ -126,7 +134,13 @@ def executive_summary(train: pd.DataFrame) -> None:
 
 
 def manufacturers_v_length(train: pd.DataFrame) -> None:
-    # TODO Docstring
+    '''
+    Plots the average coaster length by manufacturer
+    ## Parameters
+    train: `DataFrame` containing the training data
+    ## Returns
+    None, plots to the notebook
+    '''
     sns.barplot(data=train, x='manufacturer', y='length',
                 palette='mako', errorbar=None)
     plt.xticks(rotation=35, horizontalalignment='right', fontsize='x-small')
@@ -137,6 +151,15 @@ def manufacturers_v_length(train: pd.DataFrame) -> None:
 
 
 def man_speed_kde(train: pd.DataFrame) -> None:
+    '''
+    Plots a KDE graph comparing the clusters based on
+    manufacturer group and the speed
+    ## Parameters
+    train: `DataFrame` containing clustered training
+    data
+    ## Returns
+    None: plots to the notebook
+    '''
     train['man_speed_cluster'] = cluster(
         train[['speed', 'num_inversions']], KMeans(7))
     sns.kdeplot(data=train, x='length',
@@ -155,7 +178,18 @@ def wood_vs_steel(train: pd.DataFrame) -> None:
 
 
 def wood_steel_levene(train: pd.DataFrame) -> md:
-    # TODO Docstring
+    '''
+    Performs a levene test to check variance
+    on steel and wooden track
+    ## Parameters
+    train: `DataFrame` containing the training
+    data
+    ## Returns
+    a `Markdown` object containing t and p
+    values for the levene test, as well as a
+    statement on whether or not the
+    null hypothesis is rejected
+    '''
     steel = train[train.steel_track].length
     wood = train[~train.steel_track].length
     t, p = stats.levene(steel, wood)
@@ -163,7 +197,18 @@ def wood_steel_levene(train: pd.DataFrame) -> md:
 
 
 def wood_steel_ttest(train: pd.DataFrame) -> md:
-    # TODO Docstring
+    '''
+    Performs an independent test to check variance
+    on steel and wooden track
+    ## Parameters
+    train: `DataFrame` containing the training
+    data
+    ## Returns
+    a `Markdown` object containing t and p
+    values for the statistical test, as well as a
+    statement on whether or not the
+    null hypothesis is rejected
+    '''
     steel = train[train.steel_track].length
     wood = train[~train.steel_track].length
     t, p = stats.ttest_ind(wood, steel, equal_var=False)
@@ -171,7 +216,14 @@ def wood_steel_ttest(train: pd.DataFrame) -> md:
 
 
 def speed_length(train: pd.DataFrame) -> None:
-    # TODO Docstring
+    '''
+    Plots a scatterplot of coaster speed
+    vs coaster length
+    ## Parameters
+    train: `DataFrame containing training data
+    ## Returns
+    None, plots scatterplot to the notebook
+    '''
     sns.scatterplot(data=train, x='speed', y='length', palette='mako')
     plt.title('Speed vs. Length')
     plt.xlabel('Speed')

@@ -53,7 +53,15 @@ def run_regression(df: pd.DataFrame,
 def scale(df: pd.DataFrame,
           scaler: ScalerType,
           ) -> pd.DataFrame:
-    # TODO docstring
+    '''
+    Scales data in `df`
+    ## Parameters
+    df: `DataFrame` with features to be scaled
+    scaler: an `sklearn` scaler with which the data
+    will be scaled
+    ## Returns
+    the scaled `DataFrame`
+    '''
     ret_scaled = df.copy()
     try:
         ret_scaled = pd.DataFrame(
@@ -67,7 +75,14 @@ def scale(df: pd.DataFrame,
 
 def cluster(df: pd.DataFrame,
             kmeans: KMeans) -> pd.Series:
-    # TODO docstring
+    '''
+    Clusters data in `df`
+    ## Parameters
+    df: DataFrame to be clustered on
+    kmeans: an `sklearn` KMeans clustering object
+    ## Returns
+    
+    '''
     clusters = np.array([])
     try:
         clusters = kmeans.predict(df)
